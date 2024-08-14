@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+group = 'org.jawbts'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    // maven 仓库加速
+    mavenLocal()
+    maven {
+        url 'https://maven.aliyun.com/repository/public/'
+    }
+    mavenCentral()
+    maven {
+        url 'https://maven.aliyun.com/repository/gradle-plugin'
+    }
+}
+
+dependencies {
+    implementation group: "com.alphacephei", name: "vosk", version: "0.3.45"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.jawbts.voskSocket.Main'
+    }
+}
+
+shadowJar {
+    dependencies {
+        exclude(dependency {
+            it.moduleGroup != "com.alphacephei" && it.moduleGroup != "net.java.dev.jna"
+        })
+    }
+}
